@@ -41,6 +41,9 @@ class BancoBrasil240(Cnab240):
         if vals['codigo_protesto'] not in [1, 2, 3]:
             vals['codigo_protesto'] = 3
         vals['cobranca_emissaoBloqueto'] = 2
+        especie_titulo_banco = {'01':2, '02':12, '03':16, '04':21, '05':17, '06':99, '07':99, '08':4, '09':7, '13':19, '15':24, '16':30, '17':99, '99':99,}
+        especie_titulo = especie_titulo_banco[line.payment_mode_id.boleto_especie]
+        vals['especie_titulo'] = especie_titulo
         return vals
 
     def nosso_numero(self, format):
