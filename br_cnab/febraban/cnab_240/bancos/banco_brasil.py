@@ -32,13 +32,24 @@ class BancoBrasil240(Cnab240):
         vals['controlecob_numero'] = self.order.id
         vals['controlecob_data_gravacao'] = self.data_hoje()
         # Codigo juro mora:
-        # 1 - Ao dia
-        # 2 - Mensal
+        # 1 - Valor ao dia
+        # 2 - Taxa Mensal
         # 3 - Isento (deve ser cadastrado no banco)
         vals['juros_cod_mora'] = int(line.payment_mode_id.late_payment_interest_type)
-        vals['juros_mora_taxa'] = Decimal(
-                str(self.order.payment_mode_id.late_payment_interest)
-            ).quantize(Decimal('1.00'))
+        
+        
+        if  vals['juros_cod_mora'] in [1]:
+            vals['juros_mora_taxa'] = Decimal(str(line.amount_total)).quantize(
+                Decimal('1.00')) / (Decimal(
+                    str(self.order.payment_mode_id.late_payment_interest)
+                ).quantize(Decimal('1.00'))/30)
+        elif vals['juros_cod_mora'] in [2]:
+            vals['juros_mora_taxa'] = Decimal(
+                    str(self.order.payment_mode_id.late_payment_interest)
+                ).quantize(Decimal('1.00'))
+        else: 
+            vals['juros_mora_taxa'] = 0.00
+
         # Banco do Brasil aceita apenas código de protesto 1, 2, ou
         # 3 (dias corridos, dias úteis ou não protestar, respectivamente)
         if vals['codigo_protesto'] not in [1, 2, 3]:
