@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from ..cnab_240 import Cnab240
+from decimal import Decimal
 
 
 class BancoBrasil240(Cnab240):
@@ -35,7 +36,9 @@ class BancoBrasil240(Cnab240):
         # 2 - Mensal
         # 3 - Isento (deve ser cadastrado no banco)
         vals['juros_cod_mora'] = int(line.payment_mode_id.late_payment_interest_type)
-        #vals['juros_mora_taxa'] = line.payment_mode_id.late_payment_interest
+        vals['juros_mora_taxa'] = Decimal(
+                str(self.order.payment_mode_id.late_payment_interest)
+            ).quantize(Decimal('1.00'))
         # Banco do Brasil aceita apenas código de protesto 1, 2, ou
         # 3 (dias corridos, dias úteis ou não protestar, respectivamente)
         if vals['codigo_protesto'] not in [1, 2, 3]:
