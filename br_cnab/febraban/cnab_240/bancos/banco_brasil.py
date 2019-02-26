@@ -40,15 +40,15 @@ class BancoBrasil240(Cnab240):
         
         if  vals['juros_cod_mora'] in [1]:
             vals['juros_mora_taxa'] = Decimal(str(line.amount_total)).quantize(
-                Decimal('1.00')) / Decimal(
+                Decimal('1.00')) / (Decimal(
                     str(self.order.payment_mode_id.late_payment_interest)
-                ).quantize(Decimal('1.00'))/30
+                ).quantize(Decimal('1.00'))/30)
         elif vals['juros_cod_mora'] in [2]:
             vals['juros_mora_taxa'] = Decimal(
                     str(self.order.payment_mode_id.late_payment_interest)
                 ).quantize(Decimal('1.00'))
         else: 
-            vals['juros_mora_taxa'] = 0.00
+            vals['juros_mora_taxa'] = Decimal(str(0.00)).quantize(Decimal('1.00'))
 
         # Banco do Brasil aceita apenas código de protesto 1, 2, ou
         # 3 (dias corridos, dias úteis ou não protestar, respectivamente)
