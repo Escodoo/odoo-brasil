@@ -35,7 +35,7 @@ class BancoBrasil240(Cnab240):
         # 2 - Mensal
         # 3 - Isento (deve ser cadastrado no banco)
         vals['juros_cod_mora'] = line.payment_mode_id.late_payment_interest_type
-        vals['juros_mora_taxa'] = line.payment_mode_id.late_payment_interest
+        #vals['juros_mora_taxa'] = line.payment_mode_id.late_payment_interest
         # Banco do Brasil aceita apenas código de protesto 1, 2, ou
         # 3 (dias corridos, dias úteis ou não protestar, respectivamente)
         if vals['codigo_protesto'] not in [1, 2, 3]:

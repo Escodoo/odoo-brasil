@@ -20,9 +20,9 @@ class PaymentMode(models.Model):
     late_payment_fee = fields.Float(string=u"Percentual Multa",
                                     digits=dp.get_precision('Account'))
     late_payment_interest_type = fields.Selection([
-        ('01', u'Juros Dia'),
-        ('02', u'Juros Mensal'),
-        ('03', u'Isento'),
+        ('01', u'JUROS DIA'),
+        ('02', u'JUROS MENSAL'),
+        ('03', u'ISENTO'),
     ], string=u'Código de Juros', default='03')                                          
     late_payment_interest = fields.Float(string=u"Juros de Mora Dia/Mês",
                                          digits=dp.get_precision('Account'))
