@@ -164,7 +164,7 @@ class Cnab240(Cnab):
                 line.emission_date),
             # Taxa de juros do Odoo padrão mensal: 2. Campo 27.3P
             # CEF/FEBRABAN e Itaú não tem.
-            'codigo_juros': 2,
+            'codigo_juros': int(self.order.payment_mode_id.late_payment_interest_type),
             'juros_mora_data': self.format_date(
                 line.date_maturity),
             'juros_mora_taxa':  Decimal(
