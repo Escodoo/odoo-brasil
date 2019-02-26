@@ -40,7 +40,7 @@ class BancoBrasil240(Cnab240):
         
         if  vals['juros_cod_mora'] in [1]:
             vals['juros_mora_taxa'] = Decimal(str(line.amount_total)).quantize(
-                Decimal('1.00')) / (Decimal(
+                Decimal('1.00')) * (Decimal(
                     str(self.order.payment_mode_id.late_payment_interest)
                 ).quantize(Decimal('1.00'))/30)
         elif vals['juros_cod_mora'] in [2]:
