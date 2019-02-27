@@ -24,7 +24,7 @@ class PaymentMode(models.Model):
         ('02', u'JUROS MENSAL'),
         ('03', u'ISENTO'),
     ], string=u'Código de Juros', default='03')                                          
-    late_payment_interest = fields.Float(string=u"Juros de Mora Dia/Mês",
+    late_payment_interest = fields.Float(string=u"Juros de Mora ao Mês",
                                          digits=dp.get_precision('Account'))
     instrucoes = fields.Text(string=u'Instruções')
     boleto_carteira = fields.Char('Carteira', size=3)
