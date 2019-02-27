@@ -19,7 +19,12 @@ class PaymentMode(models.Model):
         'ir.sequence', string=u'Seq. do Nosso Número')
     late_payment_fee = fields.Float(string=u"Percentual Multa",
                                     digits=dp.get_precision('Account'))
-    late_payment_interest = fields.Float(string=u"Juros de Mora ao Mês",
+    late_payment_interest_type = fields.Selection([
+        ('01', u'JUROS DIA'),
+        ('02', u'JUROS MENSAL'),
+        ('03', u'ISENTO'),
+    ], string=u'Código de Juros', default='03')                                          
+    late_payment_interest = fields.Float(string=u"Juros de Mora Dia/Mês",
                                          digits=dp.get_precision('Account'))
     instrucoes = fields.Text(string=u'Instruções')
     boleto_carteira = fields.Char('Carteira', size=3)
@@ -57,6 +62,7 @@ class PaymentMode(models.Model):
         ('8', u'Não Negativar')
     ], string=u'Códigos de Protesto', default='0')
     boleto_protesto_prazo = fields.Char(u'Prazo protesto', size=2)
+    
 
     @api.onchange("boleto_type")
     def br_boleto_onchange_boleto_type(self):

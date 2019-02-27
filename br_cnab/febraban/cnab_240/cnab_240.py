@@ -170,6 +170,7 @@ class Cnab240(Cnab):
             'juros_mora_taxa':  Decimal(
                 str(self.order.payment_mode_id.late_payment_interest)
             ).quantize(Decimal('1.00')),
+            
             # Multa padrão em percentual no Odoo, valor '2'
             'codigo_multa': '2',
             'data_multa': self.format_date(
