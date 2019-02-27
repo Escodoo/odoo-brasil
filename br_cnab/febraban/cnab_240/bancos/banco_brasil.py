@@ -38,11 +38,16 @@ class BancoBrasil240(Cnab240):
         vals['juros_cod_mora'] = int(line.payment_mode_id.late_payment_interest_type)
         
         
+        #if  vals['juros_cod_mora'] in [1]:
+        #    vals['juros_mora_taxa'] = Decimal(str(line.amount_total)).quantize(
+        #        Decimal('1.00')) * (Decimal(
+        #            str(self.order.payment_mode_id.late_payment_interest)
+        #        ).quantize(Decimal('1.00'))/30)
+        
         if  vals['juros_cod_mora'] in [1]:
-            vals['juros_mora_taxa'] = Decimal(str(line.amount_total)).quantize(
-                Decimal('1.00')) * (Decimal(
-                    str(self.order.payment_mode_id.late_payment_interest)
-                ).quantize(Decimal('1.00'))/30)
+            vals['juros_mora_taxa'] = Decimal(
+                    str(line.amount_total * (self.order.payment_mode_id.late_payment_interest / 30))
+                ).quantize(Decimal('1.00'))
         elif vals['juros_cod_mora'] in [2]:
             vals['juros_mora_taxa'] = Decimal(
                     str(self.order.payment_mode_id.late_payment_interest)
