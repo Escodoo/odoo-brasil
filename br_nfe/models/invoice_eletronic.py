@@ -408,12 +408,7 @@ class InvoiceEletronic(models.Model):
                     'pICMSST': "%.02f" % item.icms_st_aliquota,
                     'vICMSST': "%.02f" % item.icms_st_valor,
                     'pCredSN': "%.02f" % item.icms_aliquota_credito,
-                    'vCredICMSSN': "%.02f" % item.icms_valor_credito,
-                    #Implementar Campos
-                    'vBCSTRet': '0.00',
-                    'vICMSSubstituto': '0.00',
-                    'vICMSSTRet': '0.00',
-                    'pST': '0.0000'
+                    'vCredICMSSN': "%.02f" % item.icms_valor_credito
                 },
                 'IPI': {
                     'clEnq': item.classe_enquadramento_ipi or '',
@@ -434,7 +429,6 @@ class InvoiceEletronic(models.Model):
                 'vFCPUFDest': "%.02f" % item.icms_fcp_uf_dest,
                 'vICMSUFDest': "%.02f" % item.icms_uf_dest,
                 'vICMSUFRemet': "%.02f" % item.icms_uf_remet, }
-        
         return {'prod': prod, 'imposto': imposto,
                 'infAdProd': item.informacao_adicional}
 
