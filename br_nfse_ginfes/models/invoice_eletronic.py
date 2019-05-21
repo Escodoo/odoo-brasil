@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # © 2016 Danimar Ribeiro <danimaribeiro@gmail.com>, Trustcode
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
@@ -271,7 +270,7 @@ class InvoiceEletronic(models.Model):
                 self.mensagem_retorno = mensagem_retorno.Mensagem
                 self._create_attachment(
                     'nfse-ret', self,
-                    recebe_lote['received_xml'].encode('utf-8').decode('utf-8'))
+                    recebe_lote['received_xml'].decode('utf-8'))
                 return
         # Monta a consulta de situação do lote
         # 1 - Não Recebido

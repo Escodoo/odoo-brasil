@@ -96,7 +96,7 @@ class AccountInvoice(models.Model):
         pgto_ids = inv_ids.mapped('payment_term_id')
         user_ids = inv_ids.mapped('user_id')
         team_ids = inv_ids.mapped('team_id')
-
+        obs_ids = fpos_id.fiscal_observation_ids.ids
         gr_invoice_id = self.create({
             'origin': origin or '',
             'type': 'out_invoice',
@@ -108,12 +108,30 @@ class AccountInvoice(models.Model):
             'currency_id': company.currency_id.id,
             'payment_term_id': pgto_ids[0].id if pgto_ids else False,
             'fiscal_position_id': fpos_id.id,
+            'service_document_id': fpos_id.service_document_id.id,
+            'service_serie_id': fpos_id.service_serie_id.id,
+            'fiscal_observation_ids': [(6, 0, obs_ids)],
             'company_id': company.id,
             'user_id': user_ids[0].id if user_ids else False,
             'team_id': team_ids[0].id if team_ids else False
         })
         for line in inv['lines']:
-            line.copy({'invoice_id': gr_invoice_id.id})
+            vals = {
+                'invoice_id': gr_invoice_id.id,
+                'product_id': line.product_id.id,
+                'quantity': line.quantity,
+                'price_unit': line.price_unit,
+                'name': line.name,
+                'sequence': line.sequence,
+                'origin': line.origin,
+                'account_id': line.account_id.id,
+                'invoice_line_tax_ids': [
+                    (6, 0, [tax.id for tax in line.invoice_line_tax_ids])]
+                }
+            new_line = self.env['account.invoice.line'].create(vals)
+            new_line._br_account_onchange_product_id()
+            new_line._set_taxes_from_fiscal_pos()
+        gr_invoice_id._onchange_invoice_line_ids()
 
         cancel_msg = ("""
             <p>This invoice was canceled by group rule named %s and

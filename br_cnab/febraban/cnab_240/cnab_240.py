@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # © 2015 Luis Felipe Mileo
 #        Fernando Marcato Rodrigues
 #        Daniel Sadamo Hirayama
@@ -101,8 +100,9 @@ class Cnab240(Cnab):
         pass
 
     def cep(self, format):
-        sulfixo = format[-3:]
-        prefixo = format[:5]
+        cep = re.sub('[^0-9]', '', format or '')
+        sulfixo = cep[-3:]
+        prefixo = cep[:5]
         return prefixo, sulfixo
 
     def sacado_inscricao_tipo(self, partner_id):
@@ -170,7 +170,6 @@ class Cnab240(Cnab):
             'juros_mora_taxa':  Decimal(
                 str(self.order.payment_mode_id.late_payment_interest)
             ).quantize(Decimal('1.00')),
-            
             # Multa padrão em percentual no Odoo, valor '2'
             'codigo_multa': '2',
             'data_multa': self.format_date(
